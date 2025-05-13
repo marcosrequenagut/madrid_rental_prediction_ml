@@ -59,6 +59,14 @@ pip install -r requirements.txt
 To explore the data and preprocessing steps:
 jupyter notebook
 
+## Viewing Saved Models in MLflow
+To view the models saved during training, run the following command in the src folder while the train.py script is executing:
+
+```bash
+mlflow ui
+```
+This will start the MLflow UI (it provides you a link), where you can track the models and their performance metrics interactively.
+
 ## Data Sources
 https://github.com/paezha/idealista18
 
