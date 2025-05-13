@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from src.models.knn import train_and_log_knn
+from src.models.linear_regressor import train_and_log_linear_regressor
 
 # Cargar datos
 df = pd.read_csv(r'C:\Users\34651\Desktop\MASTER\TFM\Data\EDA_Madrid_SCALED.csv')
@@ -37,4 +38,5 @@ y_train = pd.concat([y_train_st, y_train_rare])
 y_test = pd.concat([y_test_st, y_test_rare])
 
 # Train and predict with KNN
-train_and_log_knn(X_train, X_test, y_train, y_test)
+#train_and_log_knn(X_train, X_test, y_train, y_test)
+train_and_log_linear_regressor(X_train, X_test, y_train, y_test)
