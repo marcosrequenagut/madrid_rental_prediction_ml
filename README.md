@@ -14,7 +14,7 @@ This is a personal project. The goal is to predict rental prices for properties 
 
 ---
 
-## 🛠 Technologies Used
+## Technologies Used
 
 - **Programming language:** Python
 - **Data analysis:** Pandas, NumPy
