@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/34651/Desktop/MASTER/TFM/ml_predicting_models/mlruns/0/51d36dac128542bbb025553b1b40f58a/artifacts
+end_time: 1747076549613
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 51d36dac128542bbb025553b1b40f58a
+run_name: rogue-cod-89
+run_uuid: 51d36dac128542bbb025553b1b40f58a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747076542961
+status: 4
+tags: []
+user_id: '34651'

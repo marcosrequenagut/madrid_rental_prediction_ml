@@ -1,0 +1,70 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+ENV/
+env/
+.venv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# VSCode settings
+.vscode/
+
+# PyCharm settings
+.idea/
+
+# MacOS system files
+.DS_Store
+
+# Python-specific
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+
+# Test coverage and logs
+.coverage
+.tox/
+.nox/
+pytest_cache/
+coverage.xml
+
+# Model and data files
+*.h5
+*.hdf5
+*.pkl
+*.joblib
+*.sav
+
+# Dataset cache or output folders
+data/raw/
+data/processed/
+outputs/
+models/
+
+# Streamlit or Dash cache
+.streamlit/
+__pycache__/
+
+# LaTeX build artifacts
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+*.lb
+
+# Jupyter Notebook temporary files
+~$*.ipynb

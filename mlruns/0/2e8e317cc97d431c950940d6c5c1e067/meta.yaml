@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/34651/Desktop/MASTER/TFM/ml_predicting_models/mlruns/0/2e8e317cc97d431c950940d6c5c1e067/artifacts
+end_time: 1747075787834
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 2e8e317cc97d431c950940d6c5c1e067
+run_name: bright-penguin-39
+run_uuid: 2e8e317cc97d431c950940d6c5c1e067
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747075762654
+status: 3
+tags: []
+user_id: '34651'

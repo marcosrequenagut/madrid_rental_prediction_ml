@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/34651/Desktop/MASTER/TFM/ml_predicting_models/mlruns/0/d9203f9f0caa4607b93b04969e93db42/artifacts
+end_time: 1747076618937
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: d9203f9f0caa4607b93b04969e93db42
+run_name: omniscient-lamb-107
+run_uuid: d9203f9f0caa4607b93b04969e93db42
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747076612399
+status: 4
+tags: []
+user_id: '34651'

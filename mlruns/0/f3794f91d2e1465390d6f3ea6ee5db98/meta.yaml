@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/34651/Desktop/MASTER/TFM/ml_predicting_models/mlruns/0/f3794f91d2e1465390d6f3ea6ee5db98/artifacts
+end_time: 1747076437843
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: f3794f91d2e1465390d6f3ea6ee5db98
+run_name: funny-moth-53
+run_uuid: f3794f91d2e1465390d6f3ea6ee5db98
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747076431009
+status: 4
+tags: []
+user_id: '34651'

@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/34651/Desktop/MASTER/TFM/ml_predicting_models/mlruns/0/9acee0a5fd03437f8666a711f21ba17d/artifacts
+end_time: 1747076007694
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 9acee0a5fd03437f8666a711f21ba17d
+run_name: fortunate-doe-417
+run_uuid: 9acee0a5fd03437f8666a711f21ba17d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747076001043
+status: 4
+tags: []
+user_id: '34651'

@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/34651/Desktop/MASTER/TFM/ml_predicting_models/mlruns/0/5736d39c6f8146118a67c16b307a90bd/artifacts
+end_time: 1747075724302
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 5736d39c6f8146118a67c16b307a90bd
+run_name: dapper-fish-978
+run_uuid: 5736d39c6f8146118a67c16b307a90bd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747075701522
+status: 3
+tags: []
+user_id: '34651'

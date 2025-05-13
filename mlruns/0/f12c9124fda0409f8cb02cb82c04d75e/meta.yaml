@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/34651/Desktop/MASTER/TFM/ml_predicting_models/mlruns/0/f12c9124fda0409f8cb02cb82c04d75e/artifacts
+end_time: 1747076692023
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: f12c9124fda0409f8cb02cb82c04d75e
+run_name: selective-mole-539
+run_uuid: f12c9124fda0409f8cb02cb82c04d75e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747076679161
+status: 3
+tags: []
+user_id: '34651'

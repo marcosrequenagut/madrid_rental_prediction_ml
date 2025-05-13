@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/34651/Desktop/MASTER/TFM/ml_predicting_models/mlruns/0/91eb6035c5d247a5a51fc5df877622e8/artifacts
+end_time: 1747076066940
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 91eb6035c5d247a5a51fc5df877622e8
+run_name: salty-koi-698
+run_uuid: 91eb6035c5d247a5a51fc5df877622e8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747076060163
+status: 4
+tags: []
+user_id: '34651'

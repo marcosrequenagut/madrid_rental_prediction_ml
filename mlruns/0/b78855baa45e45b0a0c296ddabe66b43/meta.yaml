@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/34651/Desktop/MASTER/TFM/ml_predicting_models/mlruns/0/b78855baa45e45b0a0c296ddabe66b43/artifacts
+end_time: 1747075811032
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: b78855baa45e45b0a0c296ddabe66b43
+run_name: blushing-auk-665
+run_uuid: b78855baa45e45b0a0c296ddabe66b43
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747075798161
+status: 3
+tags: []
+user_id: '34651'
