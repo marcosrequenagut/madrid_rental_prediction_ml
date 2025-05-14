@@ -1,8 +1,11 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
+
+from src.models.ensemble_voting_regressor import train_ensemble_model
 from src.models.knn import train_and_log_knn
 from src.models.linear_regressor import train_and_log_linear_regressor
 from src.models.random_forest import train_and_log_random_forest_regressor
+from src.models.svm_regressor import train_and_log_svm_regressor
 from src.models.xgboost_regressor import train_and_log_xgboost_regressor
 
 # Cargar datos
@@ -49,4 +52,10 @@ y_test = pd.concat([y_test_st, y_test_rare])
 #train_and_log_random_forest_regressor(X_train, X_test, y_train, y_test)
 
 # Train and Predict with XGBoost Regressor
-train_and_log_xgboost_regressor(X_train, X_test, y_train, y_test)
+#train_and_log_xgboost_regressor(X_train, X_test, y_train, y_test)
+
+# Train and Predict with SVM Regressor
+train_and_log_svm_regressor(X_train, X_test, y_train, y_test)
+
+# Train and Predict with Ensembles
+train_ensemble_model(X_train, X_test, y_train, y_test)

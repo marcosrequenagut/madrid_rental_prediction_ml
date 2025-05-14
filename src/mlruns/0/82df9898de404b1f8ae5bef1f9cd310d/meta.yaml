@@ -1,8 +1,9 @@
 artifact_uri: file:///C:/Users/34651/Desktop/MASTER/TFM/madrid_rental_prediction_ml/src/mlruns/0/82df9898de404b1f8ae5bef1f9cd310d/artifacts
+deleted_time: 1747220819747
 end_time: 1747134367535
 entry_point_name: ''
 experiment_id: '0'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: 82df9898de404b1f8ae5bef1f9cd310d
 run_name: welcoming-squid-967
 run_uuid: 82df9898de404b1f8ae5bef1f9cd310d
