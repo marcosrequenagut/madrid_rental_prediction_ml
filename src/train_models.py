@@ -3,6 +3,7 @@ from sklearn.model_selection import train_test_split
 from src.models.knn import train_and_log_knn
 from src.models.linear_regressor import train_and_log_linear_regressor
 from src.models.random_forest import train_and_log_random_forest_regressor
+from src.models.xgboost_regressor import train_and_log_xgboost_regressor
 
 # Cargar datos
 df = pd.read_csv(r'C:\Users\34651\Desktop\MASTER\TFM\Data\EDA_Madrid_SCALED.csv')
@@ -45,4 +46,7 @@ y_test = pd.concat([y_test_st, y_test_rare])
 #train_and_log_linear_regressor(X_train, X_test, y_train, y_test)
 
 # Train and predict with Random Forest
-train_and_log_random_forest_regressor(X_train, X_test, y_train, y_test)
+#train_and_log_random_forest_regressor(X_train, X_test, y_train, y_test)
+
+# Train and Predict with XGBoost Regressor
+train_and_log_xgboost_regressor(X_train, X_test, y_train, y_test)

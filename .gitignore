@@ -42,12 +42,6 @@ coverage.xml
 *.joblib
 *.sav
 
-# Dataset cache or output folders
-data/raw/
-data/processed/
-outputs/
-models/
-
 # Streamlit or Dash cache
 .streamlit/
 __pycache__/
