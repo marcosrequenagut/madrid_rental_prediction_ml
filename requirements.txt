@@ -1,4 +1,5 @@
 pandas
 mlflow
 scikit-learn
-
+streamlit
+fastapi

@@ -1,0 +1,16 @@
+artifact_uri: file:///C:/Users/34651/Desktop/MASTER/TFM/madrid_rental_prediction_ml/src/mlruns/0/cbb88e865c434c4aad1a627981235c84/artifacts
+deleted_time: 1747474354962
+end_time: 1747473556476
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: deleted
+run_id: cbb88e865c434c4aad1a627981235c84
+run_name: KNN_Model
+run_uuid: cbb88e865c434c4aad1a627981235c84
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747473552950
+status: 4
+tags: []
+user_id: '34651'

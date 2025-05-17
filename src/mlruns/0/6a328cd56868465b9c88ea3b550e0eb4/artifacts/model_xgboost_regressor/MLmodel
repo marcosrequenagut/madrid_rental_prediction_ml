@@ -1,0 +1,21 @@
+artifact_path: model_xgboost_regressor
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.9.13
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.6.1
+mlflow_version: 2.22.0
+model_size_bytes: 850819
+model_uuid: b5f8843cc254472f90e249668c0d6560
+prompts: null
+run_id: 6a328cd56868465b9c88ea3b550e0eb4
+utc_time_created: '2025-05-17 08:45:40.971880'

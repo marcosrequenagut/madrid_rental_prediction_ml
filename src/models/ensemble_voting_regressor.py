@@ -1,15 +1,17 @@
 import mlflow
 import mlflow.sklearn
 import time
+import numpy as np
 
 from xgboost import XGBRegressor
 from sklearn.ensemble import RandomForestRegressor, VotingRegressor
-from sklearn.metrics import mean_absolute_error, r2_score
 from sklearn.neighbors import KNeighborsRegressor
+from sklearn.metrics import mean_absolute_error, r2_score, mean_squared_error
+
 
 
 def train_ensemble_model(X_train, X_test, y_train, y_test):
-    # Configuración inicial
+    # Initial configuration
     mlflow.set_tracking_uri("http://127.0.0.1:5000")
     model_name = "voting_regressor"
     run_name = f"{model_name}_{int(time.time())}"
@@ -57,15 +59,22 @@ def train_ensemble_model(X_train, X_test, y_train, y_test):
         mae_train = mean_absolute_error(y_train, y_train_pred)
         r2_test = r2_score(y_test, y_test_pred)
         mae_test = mean_absolute_error(y_test, y_test_pred)
+        mse = mean_squared_error(y_test, y_test_pred)
+        rmse = np.sqrt(mse)
 
         # Log en MLflow
         mlflow.log_metric("r2_train", r2_train)
         mlflow.log_metric("mae_train", mae_train)
         mlflow.log_metric("r2_test", r2_test)
         mlflow.log_metric("mae_test", mae_test)
+        mlflow.log_metric("mse_test", mse)
+        mlflow.log_metric("rmse_test", rmse)
 
         mlflow.sklearn.log_model(ensemble, "ensemble_model")
 
-        print(f"Voting Regressor - MAE Test: {mae_test:.2f}, R2 Test: {r2_test:.2f}")
+        print(f"Linear Regressor MAE: {mae_test:.2f}")
+        print(f"KNN MSE: {mse:.2f}")
+        print(f"KNN RMSE: {rmse:.2f}")
+        print(f"Linear Regressor R2: {r2_test:.2f}")
 
         return ensemble

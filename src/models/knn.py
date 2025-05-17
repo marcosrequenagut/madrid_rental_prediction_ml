@@ -11,8 +11,17 @@ def train_and_log_knn(X_train, X_test, y_train, y_test):
     grid = {
         'n_neighbors': [3, 5, 7, 10],
         'weights': ['uniform', 'distance'],
-        'metric': ['euclidean', 'manhattan']
+        'metric': ['euclidean', 'manhattan'],
     }
+
+    '''grid = {
+    'n_neighbors': [3, 5, 7, 10],
+    'weights': ['uniform', 'distance'],
+    'metric': ['euclidean', 'manhattan', 'minkowski'],
+    'p': [1, 2],  # solo se usa si metric='minkowski'
+    'algorithm': ['auto', 'ball_tree', 'kd_tree', 'brute'],
+    'leaf_size': [20, 30, 40]
+}'''
 
     # Define the model
     knn = KNeighborsRegressor()
