@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/34651/Desktop/MASTER/TFM/madrid_rental_prediction_ml/src/mlruns_initial_experiments/0/666b886c55b2432889f338b250db6fca/artifacts
+end_time: 1747472783995
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 666b886c55b2432889f338b250db6fca
+run_name: xgboost_regressor_1747472771
+run_uuid: 666b886c55b2432889f338b250db6fca
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747472771963
+status: 3
+tags: []
+user_id: '34651'

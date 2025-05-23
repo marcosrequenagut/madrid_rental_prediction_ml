@@ -7,7 +7,9 @@ from xgboost import XGBRegressor
 from sklearn.ensemble import RandomForestRegressor, VotingRegressor
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.metrics import mean_absolute_error, r2_score, mean_squared_error
+from utils.utils import setup_mlflow
 
+setup_mlflow()
 
 
 def train_ensemble_model(X_train, X_test, y_train, y_test):

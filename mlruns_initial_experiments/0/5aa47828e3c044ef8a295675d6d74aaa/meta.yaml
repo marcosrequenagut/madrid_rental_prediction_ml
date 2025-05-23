@@ -1,0 +1,16 @@
+artifact_uri: file:///C:/Users/34651/Desktop/MASTER/TFM/madrid_rental_prediction_ml/src/mlruns_initial_experiments/0/5aa47828e3c044ef8a295675d6d74aaa/artifacts
+deleted_time: 1747472529268
+end_time: 1747134370733
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: deleted
+run_id: 5aa47828e3c044ef8a295675d6d74aaa
+run_name: linear_regressor_11
+run_uuid: 5aa47828e3c044ef8a295675d6d74aaa
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747134359848
+status: 3
+tags: []
+user_id: '34651'

@@ -1,4 +1,6 @@
 from src.data_processing.data_preprocessing import load_and_preproces_data
+from src.models.knn import train_and_log_knn
+from src.models.linear_regressor import train_and_log_linear_regressor
 from src.models.xgboost_regressor import train_and_log_xgboost_regressor
 
 def main():
@@ -15,13 +17,13 @@ def main():
     #train_and_log_knn(X_train, X_test, y_train, y_test)
 
     # Train and predict with Linear Regressor
-    #train_and_log_linear_regressor(X_train, X_test, y_train, y_test)
+    train_and_log_linear_regressor(X_train, X_test, y_train, y_test)
 
     # Train and predict with Random Forest
     #train_and_log_random_forest_regressor(X_train, X_test, y_train, y_test)
 
     # Train and Predict with XGBoost Regressor
-    train_and_log_xgboost_regressor(X_train, X_test, y_train, y_test)
+    #train_and_log_xgboost_regressor(X_train, X_test, y_train, y_test)
 
     # Train and Predict with SVM Regressor
     #train_and_log_svm_regressor(X_train, X_test, y_train, y_test)

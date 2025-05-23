@@ -6,6 +6,10 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import mean_absolute_error, r2_score, mean_squared_error
+from utils.utils import setup_mlflow
+
+setup_mlflow()
+print("Tracking URI:", mlflow.get_tracking_uri())
 
 def train_and_log_linear_regressor(X_train, X_test, y_train, y_test):
     #Configuración inicial
