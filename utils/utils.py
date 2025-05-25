@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.metrics import (
     mean_absolute_error, mean_squared_error,
     r2_score, explained_variance_score,
-    mean_absolute_percentage_error
+    mean_absolute_percentage_error, make_scorer
 )
 
 def setup_mlflow():
@@ -13,6 +13,15 @@ def setup_mlflow():
 # ------------------------
 # METRICS
 # ------------------------
+def get_regression_scorers():
+    return {
+        'mae': make_scorer(mean_absolute_error, greater_is_better=False),
+        'mse': make_scorer(mean_squared_error, greater_is_better=False),
+        'rmse': make_scorer(lambda y, y_pred: np.sqrt(mean_squared_error(y, y_pred)), greater_is_better=False),
+        'mape': make_scorer(mean_absolute_percentage_error, greater_is_better=False),
+        'r2': make_scorer(r2_score),
+        'evs': make_scorer(explained_variance_score)
+    }
 
 def calculate_metrics(y_true, y_pred):
     mse = mean_squared_error(y_true, y_pred)
