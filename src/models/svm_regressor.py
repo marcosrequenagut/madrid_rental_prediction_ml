@@ -6,18 +6,19 @@ import numpy as np
 from sklearn.svm import SVR
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import mean_absolute_error, r2_score, mean_squared_error
-from utils.utils import setup_mlflow
 
-setup_mlflow()
-print("Tracking URI:", mlflow.get_tracking_uri())
+from utils.utils import get_regression_scorers, extract_cv_metrics, calculate_metrics
+
 
 def train_and_log_svm_regressor(X_train, X_test, y_train, y_test):
     # Initial configuration
-    mlflow.set_tracking_uri("http://127.0.0.1:5000")
     model_name = "svm_regressor"
 
     # Name of the model which will be saved
     run_name = f"{model_name}_{int(time.time())}"
+
+    # Define custom scorers
+    scoring = get_regression_scorers()
 
     with mlflow.start_run(run_name=run_name):
         # Define the grid of hyperparameters
@@ -34,41 +35,41 @@ def train_and_log_svm_regressor(X_train, X_test, y_train, y_test):
 
         # Cross-validation
         svr_cv = GridSearchCV(estimator=svr, param_grid=grid,
-                              scoring='neg_mean_absolute_error',
-                              cv=5, n_jobs=-1)
+                              scoring=scoring,
+                              refit='r2',
+                              cv=5, n_jobs=-1,
+                              return_train_score=True)
 
         # Train
         svr_cv.fit(X_train, y_train)
 
-        r2_train = svr_cv.best_score_ # R2 train
+        # Prediction and metrics on training
+        r2_train = svr_cv.best_score_
+        best_idx = svr_cv.best_index_
+        results = svr_cv.cv_results_
+
+        metrics_train = extract_cv_metrics(results, best_idx)
+
+        # Predictions and Metrics on Test with the best model
+        y_pred = svr_cv.predict(X_test)
+        metrics_test = calculate_metrics(y_test, y_pred)
+
+        # Best hyperparams of the model
         best_params = svr_cv.best_params_
-        best_model = svr_cv.best_estimator_
-        # Add mae, rmse, mse for train in the CV, add more metrics, refit mirarmelo parametro de GS
-        # the best model has to win in all the metrics
 
-        # Predictions and Metrics on test
-        y_pred = best_model.predict(X_test)
-        r2 = r2_score(y_test, y_pred)
-        mae = mean_absolute_error(y_test, y_pred)
-        mse = mean_squared_error(y_test, y_pred)
-        rmse = np.sqrt(mse)
-
-        # Log with MLFlow
+        # Log with MlFlow
         mlflow.log_param("best_hyperparameters", best_params)
-        mlflow.log_metric("mae_test", mae)
-        mlflow.log_metric("r2_test", r2)
-        mlflow.log_metric("mse_test", mse)
-        mlflow.log_metric("rmse_test", rmse)
-        """mlflow.log_metric("mae_train", mae_train)
-        mlflow.log_metric("r2_train", r2_train)"""
+        for metric, value in metrics_test.items():
+            mlflow.log_metric(f"{metric}_test", value)
+        for metric, value in metrics_train.items():
+            mlflow.log_metric(metric, value)
 
         # Save the model
-        mlflow.sklearn.log_model(svr_cv.best_estimator_, "model_svm_regressor")
+        mlflow.sklearn.log_model(svr_cv.best_estimator_, "random_forest_regressor")
 
-        print(f"SVM Regressor MAE: {mae:.2f}")
-        print(f"KNN MSE: {mse:.2f}")
-        print(f"KNN RMSE: {rmse:.2f}")
-        print(f"SVM Regressor R2: {r2:.2f}")
-        print(f"SVM Regressor Best Params: {best_params}")
+        print("Show the r^2 for Super Vector Machine Regressor:")
+        print(f"R2 on test: {metrics_test['r2']:.2f}")
+        print(f"R2 on training: {r2_train:.2f}")
+        print(f"Best Params: {best_params}")
 
         return svr_cv.best_estimator_
