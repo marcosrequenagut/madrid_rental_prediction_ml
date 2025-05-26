@@ -1,21 +1,18 @@
 import mlflow
 import mlflow.sklearn
 import time
-import numpy as np
 
 from xgboost import XGBRegressor
 from sklearn.ensemble import RandomForestRegressor, VotingRegressor
 from sklearn.neighbors import KNeighborsRegressor
-from sklearn.metrics import mean_absolute_error, r2_score, mean_squared_error
-from utils.utils import setup_mlflow
 
-setup_mlflow()
+from utils.utils import get_regression_scorers, calculate_metrics
 
 
 def train_ensemble_model(X_train, X_test, y_train, y_test):
     # Initial configuration
-    mlflow.set_tracking_uri("http://127.0.0.1:5000")
     model_name = "voting_regressor"
+
     run_name = f"{model_name}_{int(time.time())}"
 
     with mlflow.start_run(run_name=run_name):
@@ -49,34 +46,28 @@ def train_ensemble_model(X_train, X_test, y_train, y_test):
             ('svr', knn)
         ])
 
-        # Train the ensemble
+        # Train the model
         ensemble.fit(X_train, y_train)
 
-        # Predictions
+        # Predictions on test and training
         y_train_pred = ensemble.predict(X_train)
         y_test_pred = ensemble.predict(X_test)
 
         # Metrics
-        r2_train = r2_score(y_train, y_train_pred)
-        mae_train = mean_absolute_error(y_train, y_train_pred)
-        r2_test = r2_score(y_test, y_test_pred)
-        mae_test = mean_absolute_error(y_test, y_test_pred)
-        mse = mean_squared_error(y_test, y_test_pred)
-        rmse = np.sqrt(mse)
+        metrics_train = calculate_metrics(y_train, y_train_pred)
+        metrics_test = calculate_metrics(y_test, y_test_pred)
 
-        # Log en MLflow
-        mlflow.log_metric("r2_train", r2_train)
-        mlflow.log_metric("mae_train", mae_train)
-        mlflow.log_metric("r2_test", r2_test)
-        mlflow.log_metric("mae_test", mae_test)
-        mlflow.log_metric("mse_test", mse)
-        mlflow.log_metric("rmse_test", rmse)
+        # Log in MLflow
+        for metric, value in metrics_train.items():
+            mlflow.log_metric(f"{metric}_train", value)
+        for metric, value in metrics_test.items():
+            mlflow.log_metric(f"{metric}_test", value)
 
         mlflow.sklearn.log_model(ensemble, "ensemble_model")
 
-        print(f"Linear Regressor MAE: {mae_test:.2f}")
-        print(f"KNN MSE: {mse:.2f}")
-        print(f"KNN RMSE: {rmse:.2f}")
-        print(f"Linear Regressor R2: {r2_test:.2f}")
+        # Show some key metrics
+        print(f"R2 test: {metrics_test['r2']:.2f}")
+        print(f"MAE test: {metrics_test['mae']:.2f}")
+        print(f"RMSE test: {metrics_test['rmse']:.2f}")
 
         return ensemble
