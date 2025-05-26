@@ -1,31 +1,20 @@
 import mlflow
 import mlflow.sklearn
 import time
-import numpy as np
 
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import mean_absolute_error, r2_score, mean_squared_error, explained_variance_score, make_scorer, mean_absolute_percentage_error
-from utils.utils import setup_mlflow, calculate_metrics, extract_cv_metrics
 
-setup_mlflow()
+from utils.utils import calculate_metrics, extract_cv_metrics, get_regression_scorers
 
 def train_and_log_random_forest_regressor(X_train, X_test, y_train, y_test):
     # Initial configuration
-    mlflow.set_tracking_uri("http://127.0.0.1:5000")  # O usa una ruta local
     model_name = "random_forest_regressor"
 
     run_name = f"{model_name}_{int(time.time())}"
 
     # Define custom scorers
-    scoring = {
-        'mae': make_scorer(mean_absolute_error, greater_is_better=False),
-        'mse': make_scorer(mean_squared_error, greater_is_better=False),
-        'rmse': make_scorer(lambda y, y_pred: np.sqrt(mean_squared_error(y, y_pred)), greater_is_better=False),
-        'mape': make_scorer(mean_absolute_percentage_error, greater_is_better=False),
-        'r2': make_scorer(r2_score),
-        'evs': make_scorer(explained_variance_score)
-    }
+    scoring = get_regression_scorers()
 
     # Save the results of the model
     with mlflow.start_run(run_name=run_name):
@@ -50,7 +39,7 @@ def train_and_log_random_forest_regressor(X_train, X_test, y_train, y_test):
                              cv = 5, n_jobs=-1,
                              return_train_score=True)
 
-        # Train the model
+        # Train the model using cross-validation
         rf_cv.fit(X_train, y_train)
 
         # Prediction and metrics on training
@@ -60,7 +49,7 @@ def train_and_log_random_forest_regressor(X_train, X_test, y_train, y_test):
 
         metrics_train = extract_cv_metrics(results, best_idx)
 
-        # Predictions and Metrics on Test
+        # Predictions and Metrics on Test with the best model
         y_pred = rf_cv.predict(X_test)
         metrics_test = calculate_metrics(y_test, y_pred)
 
@@ -72,7 +61,7 @@ def train_and_log_random_forest_regressor(X_train, X_test, y_train, y_test):
         for metric, value in metrics_test.items():
             mlflow.log_metric(f"{metric}_test", value)
         for metric, value in metrics_train.items():
-            mlflow.log_metric(f"{metric}_train", value)
+            mlflow.log_metric(metric, value)
 
 
         # Save the model
