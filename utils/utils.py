@@ -1,4 +1,3 @@
-import mlflow
 import numpy as np
 
 from sklearn.metrics import (
@@ -7,11 +6,8 @@ from sklearn.metrics import (
     mean_absolute_percentage_error, make_scorer
 )
 
-def setup_mlflow():
-    mlflow.set_tracking_uri("http://127.0.0.1:5000")
-
 # ------------------------
-# METRICS
+# ------- METRICS --------
 # ------------------------
 def get_regression_scorers():
     return {
