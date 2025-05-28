@@ -26,23 +26,6 @@ This is a personal project. The goal is to predict rental prices for properties 
 
 ---
 
-##  Project Structure
-
-madrid_rental_prediction_ml/
-│
-├── notebooks/ # Jupyter Notebooks for data cleaning and EDA
-├── data/ # Raw and processed datasets
-├── src/ # Python scripts with functions and models
-├── dashboard/ # Streamlit or Dash app
-├── reports/ # Plots and thesis-related documents
-├── tests/ # Unit tests (if needed)
-├── requirements.txt # Python dependencies
-├── README.md # This file
-└── .gitignore # Files and folders to ignore in Git
-
-
----
-
 ##  Installation
 
 Clone the repository and install dependencies in a virtual environment:
@@ -60,12 +43,24 @@ To explore the data and preprocessing steps:
 jupyter notebook
 
 ## Viewing Saved Models in MLflow
-To view the models saved during training, run the following command in the src folder while the train.py script is executing:
+To view the models saved during training, run the following command in the root of the project:
 
 ```bash
 mlflow ui
 ```
-This will start the MLflow UI (it provides you a link), where you can track the models and their performance metrics interactively.
+This will start the MLflow UI, where you can track the models and their performance metrics interactively and download the model used.
+
+## Running the Application
+To run the app, execute the following commands from the root of the project in a bash terminal:
+```bash
+streamlit run app/streamlit_app/dashboard.py
+```
+Launch the Streamlit dashboard for interactive property price prediction.
+
+```bash
+python -m uvicorn app.fastapi_api.app:app --reload
+```
+Run the FastAPI server with hot reload to access the API documentation and support the Streamlit dashboard.
 
 ## Data Sources
 https://github.com/paezha/idealista18
