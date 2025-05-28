@@ -1,10 +1,43 @@
 import numpy as np
+import pandas as pd
+import pickle
+import mlflow
 
 from sklearn.metrics import (
     mean_absolute_error, mean_squared_error,
     r2_score, explained_variance_score,
     mean_absolute_percentage_error, make_scorer
 )
+from minio import Minio
+from pathlib import Path
+
+# ------------------------
+# -- Feature Importance --
+# ------------------------
+
+def show_linear_model_feature_importance(model, feature_names, top_n=None):
+    """    Displays the feature importance of a regression model."""
+
+    coefs = model.coef_
+    importance = pd.Series(coefs, index=feature_names)
+    importance_abs = importance.abs()
+    importance_abs_normalized = (importance_abs / importance_abs.max()).sort_values(ascending=False)
+
+    if top_n:
+        importance_abs_normalized = importance_abs_normalized.head(top_n)
+
+    print("Feature Importance (Absolute Values):")
+    for feature, value in importance_abs_normalized.items():
+        print(f"{feature}: {value:.4f}")
+
+def show_tree_model_feature_importance(model, feature_names):
+    importance = pd.Series(model.feature_importances_, index=feature_names)
+    importance_abs = importance.abs()
+    importance_abs_normalized = (importance_abs / importance_abs.max()).sort_values(ascending=False)
+
+    print("Feature Importance (Absolute Values):")
+    for feature, value in importance_abs_normalized.items():
+        print(f"{feature}: {value:.4f}")
 
 # ------------------------
 # ------- METRICS --------
@@ -38,3 +71,15 @@ def extract_cv_metrics(results, best_idx):
         'mape_train': -results['mean_test_mape'][best_idx],
         'evs_train': results['mean_test_evs'][best_idx]
     }
+
+# ------------------------
+# -------- Model ---------
+# ------------------------
+def save_model(model, model_name):
+    if mlflow.active_run() is None:
+        with mlflow.start_run():
+            mlflow.sklearn.log_model(model, artifact_path="model", registered_model_name=model_name)
+    else:
+        mlflow.sklearn.log_model(model, artifact_path="model", registered_model_name=model_name)
+
+    print(f"Model {model_name} saved and registered in MLflow.")
