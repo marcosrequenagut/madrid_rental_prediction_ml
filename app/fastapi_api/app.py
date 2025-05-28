@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
+from app.routes import predict
+print("loaded predict.py")
 app = FastAPI(
     title = "Predict Rental Prices in Madrid",
     description = "A RESTful API for predicting property prices in Madrid based on various features.",
@@ -14,6 +16,8 @@ app = FastAPI(
     description="This is the front page of the data service. It provides a welcome message and a link to the API documentation.",
     tags=["front-page"],
 )
+
+
 async def root_page():
     return """<!DOCTYPE html>
 <html lang="en">
@@ -28,3 +32,8 @@ async def root_page():
         <p>Visit our project repository on GitHub <a href="https://github.com/marcosrequenagut/madrid_rental_prediction_ml">here</a>.</p>
     </body>
 </html>"""
+
+app.include_router(
+    predict.router,
+    prefix="/api/v1/predict",
+)
