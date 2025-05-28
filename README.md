@@ -51,7 +51,7 @@ mlflow ui
 This will start the MLflow UI, where you can track the models and their performance metrics interactively and download the model used.
 
 ## Running the Application
-To run the app, execute the following commands from the root of the project in a bash terminal:
+To run the app, execute the following commands from the root of the project in different bash terminals:
 ```bash
 streamlit run app/streamlit_app/dashboard.py
 ```
