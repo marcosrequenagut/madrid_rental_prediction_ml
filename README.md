@@ -31,10 +31,23 @@ This is a personal project. The goal is to predict rental prices for properties 
 Clone the repository and install dependencies in a virtual environment:
 
 ```bash
-git clone https://github.com/your-username/tfm-madrid-rental-prediction.git
-cd tfm-madrid-rental-prediction
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+git clone https://github.com/marcosrequenagut/madrid_rental_prediction_ml
+````
+
+Virtual environment setup:
+
+Create virtual environment
+```bash
+python -m venv .venv
+```
+
+Activate the virtual environment and install the required packages:
+```bash
+source .venv/Scripts/activate  # On Windows: venv\Scripts\activate
+```
+
+Install dependencies:
+```bash
 pip install -r requirements.txt
 ```
 
