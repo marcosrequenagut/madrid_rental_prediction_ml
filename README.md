@@ -58,7 +58,7 @@ streamlit run app/streamlit_app/dashboard.py
 Launch the Streamlit dashboard for interactive property price prediction.
 
 ```bash
-python -m uvicorn app.fastapi_api.app:app --reload
+python -m uvicorn app.fastapi_api.app:app --reload --port 8001
 ```
 Run the FastAPI server with hot reload to access the API documentation and support the Streamlit dashboard.
 
