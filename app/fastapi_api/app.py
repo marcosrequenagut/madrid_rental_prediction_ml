@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
-from app.routes import predict
+from app.routes import predict, maps
+
 print("loaded predict.py")
 app = FastAPI(
     title = "Predict Rental Prices in Madrid",
@@ -36,4 +37,9 @@ async def root_page():
 app.include_router(
     predict.router,
     prefix="/api/v1/predict",
+)
+
+app.include_router(
+    maps.router,
+    prefix="/api/v1/maps",
 )
