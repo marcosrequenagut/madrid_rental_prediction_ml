@@ -67,7 +67,7 @@ This will start the MLflow UI, where you can track the models and their performa
 To run the app, execute the following commands from the root of the project in different bash terminals. Make sure that MLflow is also running.
 Launch the Streamlit dashboard for interactive property price prediction.
 ```bash
-streamlit run app/streamlit_app/dashboard.py
+streamlit run app/streamlit_app/Home.py
 ```
 
 Run the FastAPI server with hot reload to access the API documentation and support the Streamlit dashboard.
