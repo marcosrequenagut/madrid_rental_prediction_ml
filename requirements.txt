@@ -3,3 +3,6 @@ mlflow
 scikit-learn
 streamlit
 fastapi
+numpy
+minio
+geopandas
