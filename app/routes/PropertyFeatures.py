@@ -13,3 +13,5 @@ class PropertyFeatures(BaseModel):
     distance_to_city_castellana: float
     constructed_year: int
     floorclean: int
+    location: str
+    district: str

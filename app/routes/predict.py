@@ -4,9 +4,12 @@ import os
 import joblib
 import pandas as pd
 import logging
+import json
+import unidecode
 
 from fastapi import APIRouter, HTTPException
 from .PropertyFeatures import PropertyFeatures
+from unidecode import unidecode
 
 print("loaded predict.py")
 
@@ -38,13 +41,41 @@ except Exception as e:
 # Register the router, it is used to define the endpoints of the API
 router = APIRouter()
 
+# Define the columns for the district features
+DISTRICT_COLUMNS = [
+    'DISTRICTS_ARGANZUELA', 'DISTRICTS_BARAJAS', 'DISTRICTS_CARABANCHEL', 'DISTRICTS_CENTRO',
+    'DISTRICTS_CHAMARTIN', 'DISTRICTS_CHAMBERI', 'DISTRICTS_CIUDAD LINEAL',
+    'DISTRICTS_FUENCARRAL-EL PARDO', 'DISTRICTS_HORTALEZA', 'DISTRICTS_LATINA',
+    'DISTRICTS_MONCLOA-ARAVACA', 'DISTRICTS_MORATALAZ', 'DISTRICTS_PUENTE DE VALLECAS',
+    'DISTRICTS_RETIRO', 'DISTRICTS_SALAMANCA', 'DISTRICTS_SAN BLAS-CANILLEJAS',
+    'DISTRICTS_TETUAN', 'DISTRICTS_USERA', 'DISTRICTS_VICALVARO',
+    'DISTRICTS_VILLA DE VALLECAS', 'DISTRICTS_VILLAVERDE'
+]
+
+# Define the columns for the location features
+LOCATION_COLUMNS = [
+    'LOCATIONNAME_0', 'LOCATIONNAME_1', 'LOCATIONNAME_2',
+    'LOCATIONNAME_3', 'LOCATIONNAME_4', 'LOCATIONNAME_5',
+    'LOCATIONNAME_6', 'LOCATIONNAME_7', 'LOCATIONNAME_8', 'LOCATIONNAME_9'
+]
+
+# Read the json where location name is map to its group
+json_path = r'C:\Users\34651\Desktop\MASTER\TFM\madrid_rental_prediction_ml\data\new_data\locationnameGroup.json'
+with open(json_path, 'r', encoding='utf-8') as file:
+    location_name_map = json.load(file)
+
+print("⏩ 0: Loaded the model and the scaler")
+
 # Define the prediction endpoint
 @router.post("", summary="Predict the price of a property")
 def predict(features: PropertyFeatures):
-    print("⏩ Paso 1: Entrando al endpoint predict")
+    print("⏩ 1: Entering into the endpoint predict")
+
+    district_name = 'DISTRICTS_'+unidecode(features.district).upper()
+    location_name = unidecode(features.location).upper()
 
     try:
-        print("⏩ Paso 2: Preparando datos")
+        print("⏩ 2: Preparing the data")
         data_dict = {
             'CONSTRUCTEDAREA': features.constructed_area,
             'HASTERRACE': features.has_terrace,
@@ -59,17 +90,46 @@ def predict(features: PropertyFeatures):
             'CADMAXBUILDINGFLOOR': features.constructed_year,
             'FLOORCLEAN': features.floorclean
         }
+
+        group_name = None
+        # Find which group the location belongs to
+        for key, value in location_name_map.items():
+            if location_name == key:
+                group_name = 'LOCATIONNAME_' + str(value)
+                break
+
+        if group_name is None:
+            raise HTTPException(status_code=400, detail=f"Invalid location name: {location_name}")
+
+        # Add the value of each location column to the data_dict
+        for location in LOCATION_COLUMNS:
+            if group_name == location:
+                data_dict[location] = 1
+            else:
+                data_dict[location] = 0
+
+        # Add the value of each district column to the data_dict
+        for district in DISTRICT_COLUMNS:
+            if district_name == district:
+                data_dict[district] = 1
+            else:
+                data_dict[district] = 0
+
+        if district_name not in DISTRICT_COLUMNS:
+            raise HTTPException(status_code=400, detail=f"Invalid district name: {district_name}")
+
+        print(f"Data dictionary prepared: {data_dict}")
         df = pd.DataFrame([data_dict])
-        print("⏩ Paso 3: Datos convertidos a DataFrame")
+        print("⏩ 3: Data transformed into a DataFrame")
 
         continuous_features = ['CONSTRUCTEDAREA', 'CADMAXBUILDINGFLOOR',
                                'DISTANCE_TO_CITY_CENTER', 'DISTANCE_TO_METRO', 'DISTANCE_TO_CASTELLANA', 'ROOMNUMBER',
                                'BATHNUMBER', 'FLOORCLEAN']
         df[continuous_features] = scaler.transform(df[continuous_features])
-        print("⏩ Paso 4: Datos escalados")
+        print("⏩ 4: Data scaladed")
 
         prediction = model.predict(df)
-        print("⏩ Paso 5: Predicción realizada")
+        print("⏩ 5: Prediction finished")
 
         return {"Predicted label": prediction[0]}
 
