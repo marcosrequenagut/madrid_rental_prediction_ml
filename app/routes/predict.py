@@ -1,4 +1,3 @@
-import numpy as np
 import mlflow.sklearn
 import os
 import joblib
@@ -17,11 +16,20 @@ print("loaded predict.py")
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
-# URI where the MLFlow server is running
-mlflow.set_tracking_uri("http://127.0.0.1:5000")
+# Set the MLflow tracking URI
+mlflow_run_id = "http://127.0.0.1:5000"
 
-# Load the model from the Model Registry (last version of the model registred)
-model = mlflow.sklearn.load_model("models:/random_forest_regressor/latest")
+# Set the scaler run id
+scaler_run_id = "3235ac7dbbd24123a5954bc24351ea03"
+
+# URI where the MLFlow server is running
+mlflow.set_tracking_uri(mlflow_run_id)
+
+# Load the model from the Model Registry (last version of the model registered), if we want to use Random Forest
+#model = mlflow.sklearn.load_model("models:/random_forest_regressor/latest")
+
+# Load the model from the Model Registry (last version of the model registered), if we want to use Ensemble Voting
+model = mlflow.sklearn.load_model("models:/voting_regressor/latest")
 
 # Directory of predict.py
 current_dir = os.path.dirname(__file__)
@@ -34,7 +42,9 @@ scaler_path = os.path.join(project_root, "src", "eda", "scaler.pkl")
 
 # Load the scaler object
 try:
-    scaler = joblib.load(scaler_path)
+    # The scaler.pkl is in the directory "scaler" of the MLFlow experiment
+    logged_run_uri = f"runs:/{scaler_run_id}/scaler/scaler.pkl"
+    scaler = joblib.load(mlflow.artifacts.download_artifacts(logged_run_uri))
 except Exception as e:
     print("Error loading scaler:", e)
 
@@ -64,18 +74,18 @@ json_path = r'C:\Users\34651\Desktop\MASTER\TFM\madrid_rental_prediction_ml\data
 with open(json_path, 'r', encoding='utf-8') as file:
     location_name_map = json.load(file)
 
-print("⏩ 0: Loaded the model and the scaler")
+print("0: Loaded the model and the scaler")
 
 # Define the prediction endpoint
 @router.post("", summary="Predict the price of a property")
 def predict(features: PropertyFeatures):
-    print("⏩ 1: Entering into the endpoint predict")
+    print("1: Entering into the endpoint predict")
 
     district_name = 'DISTRICTS_'+unidecode(features.district).upper()
     location_name = unidecode(features.location).upper()
 
     try:
-        print("⏩ 2: Preparing the data")
+        print("2: Preparing the data")
         data_dict = {
             'CONSTRUCTEDAREA': features.constructed_area,
             'HASTERRACE': features.has_terrace,
@@ -120,16 +130,16 @@ def predict(features: PropertyFeatures):
 
         print(f"Data dictionary prepared: {data_dict}")
         df = pd.DataFrame([data_dict])
-        print("⏩ 3: Data transformed into a DataFrame")
+        print("3: Data transformed into a DataFrame")
 
         continuous_features = ['CONSTRUCTEDAREA', 'CADMAXBUILDINGFLOOR',
                                'DISTANCE_TO_CITY_CENTER', 'DISTANCE_TO_METRO', 'DISTANCE_TO_CASTELLANA', 'ROOMNUMBER',
                                'BATHNUMBER', 'FLOORCLEAN']
         df[continuous_features] = scaler.transform(df[continuous_features])
-        print("⏩ 4: Data scaladed")
+        print("4: Data scaled")
 
         prediction = model.predict(df)
-        print("⏩ 5: Prediction finished")
+        print("5: Prediction finished")
 
         return {"Predicted label": prediction[0]}
 
