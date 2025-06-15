@@ -1,5 +1,7 @@
 import streamlit as st
 import requests
+import json
+import os
 
 # URL of the api
 api_url = "http://127.0.0.1:8001"
@@ -7,6 +9,12 @@ api_url = "http://127.0.0.1:8001"
 st.title("Find out how much your property is worth!")
 
 st.write("Introduce the required features:")
+
+base_dir = os.path.dirname(__file__)
+json_path = os.path.abspath(os.path.join(base_dir, '..', '..', '..', 'data', 'new_data', 'districts_and_neighborhood.json'))
+
+with open(json_path, 'r', encoding='utf-8') as f:
+    districts_neighborhoods_json = json.load(f)
 
 # Inputs
 number_of_bathrooms = st.number_input("Number of bathrooms", min_value = 1, max_value = 8, value = 2)
@@ -17,10 +25,14 @@ distance_to_city_metro = st.number_input("Distance to metro (km)", min_value=0.0
 distance_to_city_castellana = st.number_input("Distance to castellana (km)", min_value=0.0, max_value=50.0, value=5.0)
 constructed_year = st.number_input("Constructed year", min_value=1700, max_value=2025, value=2010)
 floor = st.number_input("Floor", min_value=0, max_value=40, value=4)
+district = st.selectbox("Select the district:", options=list(districts_neighborhoods_json.keys()))
+neighborhoods = districts_neighborhoods_json.get(district, [])
+location = st.selectbox("Neighborhood:", options=neighborhoods)
 has_terrace = st.radio("Has terrace?", ("Yes", "No"))
 is_parkingspace_included = st.radio("Is parking space included in price?", ("Yes", "No"))
 has_swimming_pool = st.radio("Has swimming pool?", ("Yes", "No"))
 is_top_floor = st.radio("Is it on the top floor?", ("Yes", "No"))
+
 
 # Using the API to get the prediction
 endpoint_predict = "/api/v1/predict"
@@ -42,6 +54,8 @@ if st.button("Predict"):
         "distance_to_city_castellana": distance_to_city_castellana,
         "constructed_year": constructed_year,
         "floorclean": floor,
+        "location": location,
+        "district": district,
     }
 
     try:
