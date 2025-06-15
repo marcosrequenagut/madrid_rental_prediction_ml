@@ -6,3 +6,7 @@ fastapi
 numpy
 minio
 geopandas
+unidecode
+streamlit-folium
+folium
+xgboost==2.1.4
