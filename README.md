@@ -63,7 +63,7 @@ mlflow ui
 ```
 This will start the MLflow UI, where you can track the models and their performance metrics interactively and download the model used.
 
-## Running the Application
+## Running the Application manually
 To run the app, execute the following commands from the root of the project in different bash terminals. Make sure that MLflow is also running.
 Launch the Streamlit dashboard for interactive property price prediction.
 ```bash
@@ -76,8 +76,27 @@ Run the FastAPI server with hot reload to access the API documentation and suppo
 python -m uvicorn app.fastapi_api.app:app --reload --port 8001
 ```
 
+If you prefer to manually restart the server after code changes (e.g., for production-like debugging), omit the --reload flag:
+
+```bash
+python -m uvicorn app.fastapi_api.app:app --port 8001
+```
+
 ## Data Sources
 https://github.com/paezha/idealista18
+
+## Running the Application with Docker
+To run the application using Docker, execute the following command to build and launch the containers required for the different services: **MLflow**, **FastAPI**, and **Streamlit**.
+
+
+```bash
+docker-compose -f docker-compose-full.yml up --build
+```
+
+After running this command, you will be able to access three different interfaces:
+- **MLFlow UI** en http://localhost:5000. This interface allows you to view all user-generated experiments, as well as the trained models and the scaler used during preprocessing.
+- **FastAPI** en http://localhost:8001/docs. This provides interactive API documentation where you can test all available endpoints
+- **Streamlit** en http://localhost:8501. This is an interactive dashboard where you can explore results, make predictions, and use various application features.
 
 ## Author
 Juan Marcos Requena Gutiérrez
