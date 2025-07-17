@@ -8,13 +8,24 @@ from fastapi.responses import Response
 from shapely import wkt
 from typing import Optional
 from folium import IFrame
+from app.routes.predict import logger
 
+
+# Define the APIRouter instance
 router = APIRouter()
 
 @router.get("", response_class=Response)
-def map(district: Optional[str] = Query(None, description="District name to filter by")):
+def map(
+        district: Optional[str] = Query(None, description="District name to filter by"),
+        room_number: Optional[int] = Query(None, description="Number of rooms to filter by"),
+        bathroom_number: Optional[int] = Query(None, description="Number of bathrooms to filter by"),
+        price_min: Optional[int] = Query(None, description="Minimum price to filter by"),
+        price_max: Optional[int] = Query(None, description="Maximum price to filter by"),
+        constructed_area_min: Optional[int] = Query(None, description="Minimum constructed area to filter by"),
+        constructed_area_max: Optional[int] = Query(None, description="Maximum constructed area to filter by"),
+       ):
     """
-    Generate an interactive HTML map of Madrid displaying real estate properties filtered by a specific district.
+    Generate an interactive HTML map of Madrid displaying real estate properties filtered by a specific district and optionally by other features selected by the user. The user may also choose to apply no additional filters.
 
     - Loads a GeoJSON file with the geometry of Madrid's districts.
     - Loads a CSV file containing property data with geographic information.
@@ -45,6 +56,12 @@ def map(district: Optional[str] = Query(None, description="District name to filt
         properties_path = os.path.join(script_dir, '..', '..', 'data/new_data', 'EDA_MADRID_NOT_SCALED_DISTRICTS.csv')
         df_properties = pd.read_csv(properties_path, encoding='utf-8')
         df_properties['GEOMETRY'] = df_properties['GEOMETRY'].apply(wkt.loads)
+
+        # Ensure that the columns have the correct data types
+        df_properties['PRICE'] = pd.to_numeric(df_properties['PRICE'], errors='coerce')
+        df_properties['ROOMNUMBER'] = pd.to_numeric(df_properties['ROOMNUMBER'], errors='coerce')
+        df_properties['BATHNUMBER'] = pd.to_numeric(df_properties['BATHNUMBER'], errors='coerce')
+
         gdf_properties = gpd.GeoDataFrame(
             df_properties[[
                 'PRICE', 'UNITPRICE', 'ROOMNUMBER',
@@ -52,7 +69,29 @@ def map(district: Optional[str] = Query(None, description="District name to filt
                 'GEOMETRY', 'CONSTRUCTEDAREA'
             ]], geometry='GEOMETRY', crs='EPSG:4326')
 
+        # Create a Folium map centered on Madrid
         m = folium.Map(location=[40.4168, -3.7038], zoom_start=12)
+
+        gdf_filtered = gdf_properties.copy()
+
+        # Filter properties based on query parameters
+        if room_number is not None:
+            gdf_filtered = gdf_filtered[gdf_filtered['ROOMNUMBER'] == room_number]
+
+        if bathroom_number is not None:
+            gdf_filtered = gdf_filtered[gdf_filtered['BATHNUMBER'] == bathroom_number]
+
+        if price_min is not None:
+            gdf_filtered = gdf_filtered[gdf_filtered['PRICE'] >= price_min]
+
+        if price_max is not None:
+            gdf_filtered = gdf_filtered[gdf_filtered['PRICE'] <= price_max]
+
+        if constructed_area_min is not None:
+            gdf_filtered = gdf_filtered[gdf_filtered['CONSTRUCTEDAREA'] >= constructed_area_min]
+
+        if constructed_area_max is not None:
+            gdf_filtered = gdf_filtered[gdf_filtered['CONSTRUCTEDAREA'] <= constructed_area_max]
 
         # Filter districts by name:
         selected_district = gdf_districts[gdf_districts['DISTRICTS'] == district]
@@ -61,7 +100,7 @@ def map(district: Optional[str] = Query(None, description="District name to filt
             raise HTTPException(status_code=404, detail="District not found")
 
         # Make the spatial intersection
-        gdf_filtered = gpd.sjoin(gdf_properties, selected_district, predicate="within")
+        gdf_filtered = gpd.sjoin(gdf_filtered, selected_district, predicate="within")
 
         # Add districts to the map
         folium.GeoJson(
