@@ -11,48 +11,48 @@ from fastapi.responses import HTMLResponse
 
 router = APIRouter()
 
-@router.get("", response_class=HTMLResponse, summary="Mapa interactivo de precios en Madrid")
+@router.get("", response_class=HTMLResponse, summary="Interactive Price Map of Madrid")
 def show_interactive_map():
     """
-    Devuelve un mapa interactivo de Madrid con:
-    - Distritos delimitados
-    - Mapa de calor (HeatMap) según precios
-    - Marcadores agrupados con precios
+    Returns an interactive map of Madrid with:
+    - District boundaries
+    - Price-colored markers
+    - Fixed color legend
 
-    :return: HTML con el mapa interactivo
-    :raises HTTPException 404: Si faltan archivos
-    :raises HTTPException 500: Si ocurre un error de procesamiento
+    :return: HTML with the interactive map
+    :raises HTTPException 404: If files are missing
+    :raises HTTPException 500: If a processing error occurs
     """
     try:
         script_dir = os.path.dirname(os.path.abspath(__file__))
 
-        # Cargar distritos
+        # Load district boundaries
         districts_path = os.path.join(script_dir, '..', '..', 'data/new_data', 'madrid-districts.geojson.txt')
         gdf_districts = gpd.read_file(districts_path)
 
-        # Elimina columnas que pueden causar problemas con JSON
+        # Drop unnecessary columns that could cause JSON issues
         gdf_districts = gdf_districts.drop(columns=['created_at', 'updated_at'], errors='ignore')
 
-        # Cargar propiedades
+        # Load property data
         properties_path = os.path.join(script_dir, '..', '..', 'data/new_data', 'EDA_MADRID_SCALED_Geometry_Column.csv')
         df_properties = pd.read_csv(properties_path, encoding='utf-8')
         df_properties['GEOMETRY'] = df_properties['GEOMETRY'].apply(wkt.loads)
 
-        # Limpiamos el dataframe, quedándonos solo las columnas necesarias
+        # Keep only necessary columns
         df_clean = df_properties[['PRICE', 'GEOMETRY']].copy()
 
-        # Renombra la geometría a 'geometry', que es el nombre por defecto que espera GeoDataFrame
+        # Rename geometry column to 'geometry' as expected by GeoDataFrame
         df_subset = df_clean.rename(columns={'GEOMETRY': 'geometry'})
 
         gdf_properties = gpd.GeoDataFrame(df_subset, geometry='geometry', crs='EPSG:4326')
 
-        # Crear mapa base centrado en Madrid
+        # Create base map centered in Madrid
         m = folium.Map(location=[40.4168, -3.7038], zoom_start=12, tiles='CartoDB positron')
 
-        # Añadir distritos con nombre y resaltado al pasar el ratón
+        # Add districts with name tooltip and hover highlight
         folium.GeoJson(
             gdf_districts,
-            name="Distritos",
+            name="Districts",
             style_function=lambda x: {
                 "fillColor": "gray",
                 "color": "black",
@@ -66,26 +66,25 @@ def show_interactive_map():
             },
             tooltip=folium.GeoJsonTooltip(
                 fields=["name"],
-                aliases=["Distrito:"],
+                aliases=["District:"],
                 sticky=True,
                 opacity=0.8,
                 direction='top'
             )
         ).add_to(m)
 
-        # Escalar colores por precio (de azul a rojo)
+        # Define color scale by price (from blue to red)
         min_price = gdf_properties['PRICE'].min()
-        #max_price = gdf_properties['PRICE'].max()
-        max_price = 1000000
+        max_price = 1000000  # Optional cap to limit color scaling
 
         colormap = cm.LinearColormap(
             colors=['blue', 'lightblue', 'yellow', 'orange', 'red'],
             vmin=min_price,
             vmax=max_price,
-            caption='Precio de las propiedades (€)'
+            caption='Property Prices (€)'
         )
 
-        # Añadir cada propiedad como CircleMarker coloreado por precio
+        # Add each property as a CircleMarker colored by price
         for _, row in gdf_properties.iterrows():
             price = row.PRICE
             location = [row.geometry.y, row.geometry.x]
@@ -96,19 +95,19 @@ def show_interactive_map():
                 fill=True,
                 fill_color=colormap(price),
                 fill_opacity=0.05,
-                popup=f"Precio: €{int(price):,}".replace(",", ".")
+                popup=f"Price: €{int(price):,}".replace(",", ".")
             ).add_to(m)
 
-        # Añadir leyenda fija
+        # Add fixed color legend
         colormap.add_to(m)
 
-        # Añadir control de capas
-        #folium.LayerControl().add_to(m)
+        # Optional: add layer control (commented out)
+        # folium.LayerControl().add_to(m)
 
-        # Devolver HTML embebido
+        # Return embedded HTML
         return HTMLResponse(content=m.get_root().render())
 
     except FileNotFoundError:
-        raise HTTPException(status_code=404, detail="Archivo no encontrado")
+        raise HTTPException(status_code=404, detail="File not found")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Ocurrió un error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
