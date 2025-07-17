@@ -101,9 +101,6 @@ def show_interactive_map():
         # Add fixed color legend
         colormap.add_to(m)
 
-        # Optional: add layer control (commented out)
-        # folium.LayerControl().add_to(m)
-
         # Return embedded HTML
         return HTMLResponse(content=m.get_root().render())
 
