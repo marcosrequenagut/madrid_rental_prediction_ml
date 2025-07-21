@@ -65,11 +65,6 @@ This will start the MLflow UI, where you can track the models and their performa
 
 ## Running the Application manually
 To run the app, execute the following commands from the root of the project in different bash terminals. Make sure that MLflow is also running.
-Launch the Streamlit dashboard for interactive property price prediction.
-```bash
-streamlit run app/streamlit_app/Home.py
-```
-
 Run the FastAPI server with hot reload to access the API documentation and support the Streamlit dashboard.
 
 ```bash
@@ -81,6 +76,12 @@ If you prefer to manually restart the server after code changes (e.g., for produ
 ```bash
 python -m uvicorn app.fastapi_api.app:app --port 8001
 ```
+
+Launch the Streamlit dashboard for interactive property price prediction.
+```bash
+streamlit run app/streamlit_app/Home.py
+```
+
 
 ## Data Sources
 https://github.com/paezha/idealista18
@@ -94,9 +95,9 @@ docker-compose -f docker-compose-full.yml up --build
 ```
 
 After running this command, you will be able to access three different interfaces:
-- **MLFlow UI** en http://localhost:5000. This interface allows you to view all user-generated experiments, as well as the trained models and the scaler used during preprocessing.
-- **FastAPI** en http://localhost:8001/docs. This provides interactive API documentation where you can test all available endpoints
-- **Streamlit** en http://localhost:8501. This is an interactive dashboard where you can explore results, make predictions, and use various application features.
+- **MLFlow UI**:  http://localhost:5000. This interface allows you to view all user-generated experiments, as well as the trained models and the scaler used during preprocessing.
+- **FastAPI**:  http://localhost:8001/docs. This provides interactive API documentation where you can test all available endpoints
+- **Streamlit**: http://localhost:8501. This is an interactive dashboard where you can explore results, make predictions, and use various application features.
 
 ## Author
 Juan Marcos Requena Gutiérrez

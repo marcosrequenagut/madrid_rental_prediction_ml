@@ -21,6 +21,9 @@ env/
 # MacOS system files
 .DS_Store
 
+# Artifacts directory
+ml_artifacts/
+
 # Python-specific
 *.log
 *.pot
