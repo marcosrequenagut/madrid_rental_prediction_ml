@@ -1,6 +1,14 @@
 import pandas as pd
 import joblib
+import mlflow
+
 from sklearn.preprocessing import StandardScaler
+
+# Set the MLflow tracking URI
+mlflow.set_tracking_uri("http://127.0.0.1:5000")
+
+# Set the name of the experiment
+mlflow.set_experiment("TFM")
 
 df = pd.read_csv(r'C:\Users\34651\Desktop\MASTER\TFM\Data\EDA_MADRID.csv')
 
@@ -23,7 +31,14 @@ continuous_features = ['CONSTRUCTEDAREA', 'CADMAXBUILDINGFLOOR',
 
 df2[continuous_features] = scaler.fit_transform(df2[continuous_features])
 
-# Save the scaled to use it in the predict endpoint of the API
+# Save the scaler locally
 joblib.dump(scaler, "scaler.pkl")
 
-print("Columns: ", df2.columns)
+# Log with MLflow
+mlflow.set_experiment("TFM")
+
+# Save the scaler in MLFlow to use it in the predict endpoint of the API
+with mlflow.start_run(run_name="StandardScaler"):
+    mlflow.log_artifact("scaler.pkl", artifact_path="scaler")
+
+print("Dataset scaled!")
