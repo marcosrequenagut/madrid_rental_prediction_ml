@@ -8,7 +8,7 @@ from fastapi.responses import Response
 from shapely import wkt
 from typing import Optional
 from folium import IFrame
-from app.routes.predict import logger
+
 
 
 # Define the APIRouter instance
@@ -25,23 +25,39 @@ def map(
         constructed_area_max: Optional[int] = Query(None, description="Maximum constructed area to filter by"),
        ):
     """
-    Generate an interactive HTML map of Madrid displaying real estate properties filtered by a specific district and optionally by other features selected by the user. The user may also choose to apply no additional filters.
+    Generate an interactive HTML map of Madrid showing real estate properties filtered by district
+    and optional property attributes.
 
-    - Loads a GeoJSON file with the geometry of Madrid's districts.
-    - Loads a CSV file containing property data with geographic information.
-    - Filters the districts based on the query parameter `district`.
-    - Performs a spatial join to select only the properties located within the selected district.
-    - Uses Folium to generate an interactive map.
-    - Each property is represented as a red circle marker.
-    - Clicking a marker opens a popup with detailed information.
+    ## Features
+    - Loads geographic district boundaries from a CSV (with WKT geometries).
+    - Loads property listings from a separate CSV, also with geometries.
+    - Filters the properties by:
+        - District name (required)
+        - Number of rooms (exact match)
+        - Number of bathrooms (exact match)
+        - Price range (min and/or max)
+        - Constructed area range (min and/or max)
+    - Performs a **spatial join** to match properties inside the selected district.
+    - Uses **Folium** to render an interactive web map with:
+        - District polygons
+        - Red circle markers for each property
+        - Interactive popups showing property details
 
+    ## Parameters
+    :param district: (Optional[str]) Name of the district to filter by. Must match district names in the source CSV.
+    :param room_number: (Optional[int]) Exact number of rooms to match.
+    :param bathroom_number: (Optional[int]) Exact number of bathrooms to match.
+    :param price_min: (Optional[int]) Minimum property price in euros.
+    :param price_max: (Optional[int]) Maximum property price in euros.
+    :param constructed_area_min: (Optional[int]) Minimum constructed area in square meters.
+    :param constructed_area_max: (Optional[int]) Maximum constructed area in square meters.
 
-    :param district: Optional; the name of the district to filter by
-    :type district: str
-    :return: HTML content representing the interactive map with properties in the selected district
-    :rtype: fastapi.responses.Response
-    :raises HTTPException 404: If the district is not found
-    :raises HTTPException 500: If an unexpected error occurs
+    ## Returns
+    - HTML response rendering the Folium map with the filtered properties.
+
+    ## Raises
+    - HTTPException 404: If the district is not found.
+    - HTTPException 500: For any unexpected errors during processing.
     """
     try:
         script_dir = os.path.dirname(os.path.abspath(__file__))
