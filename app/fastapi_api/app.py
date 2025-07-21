@@ -3,8 +3,7 @@ import logging
 
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse, FileResponse
-from fastapi.staticfiles import StaticFiles
-from app.routes import predict, maps, map_all_properties, map_properties_by_district
+from app.routes import predict, map_all_properties, map_properties_by_district
 
 
 app = FastAPI(
@@ -143,15 +142,12 @@ async def root_page():
 async def serve_map():
     file_path = os.path.join("app", "static", "map.html")
     return FileResponse(file_path)
+
 app.include_router(
     predict.router,
     prefix="/api/v1/predict",
 )
 
-app.include_router(
-    maps.router,
-    prefix="/api/v1/maps",
-)
 
 app.include_router(
     map_all_properties.router,
