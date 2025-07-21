@@ -79,6 +79,23 @@ print("0: Loaded the model and the scaler")
 # Define the prediction endpoint
 @router.post("", summary="Predict the price of a property")
 def predict(features: PropertyFeatures):
+    """
+    Predict the price of a property based on its features.
+
+    - Accepts a POST request with structured property features.
+    - Encodes categorical variables for district and location using one-hot encoding.
+    - Normalizes continuous features using a pre-trained scaler (`scaler.pkl`).
+    - Loads a Voting Regressor model from the MLflow Model Registry.
+    - Performs inference using the processed input data.
+    - Returns the predicted property price.
+
+    :param features: a `PropertyFeatures` object containing the input data for prediction.
+
+    :returns: JSON with the predicted label (price in euros).
+
+    :raises 400 if the district or location name is not valid.
+    :raises 500 if any error occurs during data preparation, transformation, or prediction.
+    """
     print("1: Entering into the endpoint predict")
 
     district_name = 'DISTRICTS_'+unidecode(features.district).upper()

@@ -4,7 +4,6 @@ import folium
 import os
 import branca.colormap as cm
 
-from folium.plugins import HeatMap, MarkerCluster
 from shapely import wkt
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import HTMLResponse
