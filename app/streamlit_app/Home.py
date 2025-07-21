@@ -1,37 +1,38 @@
 import streamlit as st
 from menu import menu
 
-# URL of the API
+# API endpoint
 api_url = "http://127.0.0.1:8001"
 
-# Set wide layout
+# Set wide layout for the app
 st.set_page_config(page_title="Madrid Housing Price App", layout="wide")
 
-# Title and intro
-st.title("🏡 Predicción de Precios de Viviendas en Madrid")
+# Title and introduction
+st.title("🏡 Madrid Housing Price Prediction")
 
 st.markdown("""
-Bienvenido a la aplicación de análisis y predicción del mercado inmobiliario en la ciudad de **Madrid**.
+Welcome to the interactive application for real estate price analysis and prediction in the city of **Madrid**.
 
-Esta herramienta te permite **explorar, comparar y estimar precios de viviendas** a partir de datos reales extraídos del portal Idealista.
-
----
-
-### 🔍 ¿Qué puedes hacer aquí?
-
-#### 💶 Estimar el precio de una vivienda
-Introduce las características principales (metros cuadrados, número de habitaciones, barrio, etc.) y obtén una estimación precisa del valor de mercado gracias a un modelo avanzado de machine learning.
-
-#### 🗺️ Explorar propiedades en el mapa
-Visualiza un **mapa interactivo** de Madrid con miles de viviendas reales disponibles, filtrables por distrito. Compara tu predicción con propiedades similares en su zona.
-
-#### 📈 Analizar tendencias del mercado
-Observa patrones de precios por barrio, evolución del valor por metro cuadrado y detecta zonas emergentes o sobrevaloradas.
+This tool enables you to **explore, compare, and estimate housing prices** using real data extracted from the Idealista property portal.
 
 ---
 
-💡 Utiliza el **menú lateral** para navegar entre las secciones disponibles y comenzar tu análisis personalizado del mercado inmobiliario madrileño.
+### 🔍 What can you do with this app?
+
+#### 💶 Estimate the price of a property
+Enter the main characteristics of a property (square meters, number of rooms, district, etc.) and receive a market value estimation powered by a trained machine learning model.
+
+#### 🗺️ Explore properties on the map
+Access an **interactive map of Madrid** displaying thousands of real property listings. Use filters such as district, number of rooms or bathrooms, square meters, price, etc, to narrow down the properties shown. You can compare your estimation against similar listings in the selected district.  
+**Note:** Filtering by district is mandatory, while the remaining filters are optional.
+
+#### 📈 Analyze market trends
+Discover pricing patterns across neighborhoods, monitor the evolution of price per square meter, and identify emerging or overvalued areas. You’ll find a **global interactive heatmap** highlighting the most and least expensive zones in Madrid. Draw your own insights based on data-driven evidence!.
+
+---
+
+💡 Use the **sidebar menu** to navigate between sections and start your customized analysis of the Madrid housing market.
 """)
 
-# Render the dynamic menu
+# Render the navigation menu
 menu()
