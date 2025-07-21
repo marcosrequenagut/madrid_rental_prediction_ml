@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1749814695708
+current_stage: None
+description: ''
+last_updated_timestamp: 1749814695708
+name: voting_regressor_80pct
+run_id: 0ce53a5ffa4e4ef6b5db8e27168c0bdc
+run_link: ''
+source: mlflow-artifacts:/129853663036901874/0ce53a5ffa4e4ef6b5db8e27168c0bdc/artifacts/model
+status: READY
+status_message: null
+storage_location: mlflow-artifacts:/129853663036901874/0ce53a5ffa4e4ef6b5db8e27168c0bdc/artifacts/model
+user_id: null
+version: 2

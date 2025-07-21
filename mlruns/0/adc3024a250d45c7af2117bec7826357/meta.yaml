@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/0/adc3024a250d45c7af2117bec7826357/artifacts
+deleted_time: 1748251443477
+end_time: 1748168725093
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: deleted
+run_id: adc3024a250d45c7af2117bec7826357
+run_name: random_forest_regressor_1748168682
+run_uuid: adc3024a250d45c7af2117bec7826357
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1748168682335
+status: 3
+tags: []
+user_id: '34651'

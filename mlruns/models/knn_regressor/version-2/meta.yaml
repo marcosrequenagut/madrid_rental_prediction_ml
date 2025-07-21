@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1749812914498
+current_stage: None
+description: ''
+last_updated_timestamp: 1749812914498
+name: knn_regressor
+run_id: 8def018020444a3589e49ebf009af510
+run_link: ''
+source: mlflow-artifacts:/513781488932876185/8def018020444a3589e49ebf009af510/artifacts/model
+status: READY
+status_message: null
+storage_location: mlflow-artifacts:/513781488932876185/8def018020444a3589e49ebf009af510/artifacts/model
+user_id: null
+version: 2

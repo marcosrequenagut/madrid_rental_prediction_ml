@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1749653499342
+current_stage: None
+description: ''
+last_updated_timestamp: 1749653499342
+name: voting_regressor
+run_id: da04e81215be47a6b75b19b265cf77e4
+run_link: ''
+source: mlflow-artifacts:/0/da04e81215be47a6b75b19b265cf77e4/artifacts/ensemble_voting_regressor
+status: READY
+status_message: null
+storage_location: mlflow-artifacts:/0/da04e81215be47a6b75b19b265cf77e4/artifacts/ensemble_voting_regressor
+user_id: null
+version: 1

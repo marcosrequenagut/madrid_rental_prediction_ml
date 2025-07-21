@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/0/3235ac7dbbd24123a5954bc24351ea03/artifacts
+deleted_time: 1749547831563
+end_time: 1749401421214
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: deleted
+run_id: 3235ac7dbbd24123a5954bc24351ea03
+run_name: StandardScaler
+run_uuid: 3235ac7dbbd24123a5954bc24351ea03
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1749401420931
+status: 3
+tags: []
+user_id: '34651'

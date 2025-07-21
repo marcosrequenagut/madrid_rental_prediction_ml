@@ -1,8 +1,9 @@
 artifact_uri: mlflow-artifacts:/0/31d698e23cc34fbf978dddaca23c4a60/artifacts
+deleted_time: 1748251443516
 end_time: 1748004644854
 entry_point_name: ''
 experiment_id: '0'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: 31d698e23cc34fbf978dddaca23c4a60
 run_name: KNN_Model
 run_uuid: 31d698e23cc34fbf978dddaca23c4a60

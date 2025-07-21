@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1749548915209
+current_stage: None
+description: ''
+last_updated_timestamp: 1749548915209
+name: random_forest_regressor_80pct
+run_id: 312660c17bc74f07a3397151c32792dd
+run_link: ''
+source: mlflow-artifacts:/0/312660c17bc74f07a3397151c32792dd/artifacts/model
+status: READY
+status_message: null
+storage_location: mlflow-artifacts:/0/312660c17bc74f07a3397151c32792dd/artifacts/model
+user_id: null
+version: 1

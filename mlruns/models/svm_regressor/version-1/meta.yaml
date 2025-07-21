@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1749814009356
+current_stage: None
+description: ''
+last_updated_timestamp: 1749814009356
+name: svm_regressor
+run_id: 67c7a34c0df94331a0c8583d60478af8
+run_link: ''
+source: mlflow-artifacts:/513781488932876185/67c7a34c0df94331a0c8583d60478af8/artifacts/model
+status: READY
+status_message: null
+storage_location: mlflow-artifacts:/513781488932876185/67c7a34c0df94331a0c8583d60478af8/artifacts/model
+user_id: null
+version: 1

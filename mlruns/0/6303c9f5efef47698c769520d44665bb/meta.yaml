@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/0/6303c9f5efef47698c769520d44665bb/artifacts
+deleted_time: 1749547831543
+end_time: 1748253748456
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: deleted
+run_id: 6303c9f5efef47698c769520d44665bb
+run_name: knn_regressor_1748253723
+run_uuid: 6303c9f5efef47698c769520d44665bb
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1748253723353
+status: 3
+tags: []
+user_id: '34651'

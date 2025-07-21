@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/0/eaa7765159854584af416868b88743e6/artifacts
+deleted_time: 1748251443495
+end_time: 1748165933163
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: deleted
+run_id: eaa7765159854584af416868b88743e6
+run_name: svm_regressor_1748165827
+run_uuid: eaa7765159854584af416868b88743e6
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1748165827406
+status: 3
+tags: []
+user_id: '34651'
