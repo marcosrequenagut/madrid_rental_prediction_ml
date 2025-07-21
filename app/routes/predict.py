@@ -29,6 +29,7 @@ mlflow.set_tracking_uri(mlflow_run_id)
 #model = mlflow.sklearn.load_model("models:/random_forest_regressor/latest")
 
 # Load the model from the Model Registry (last version of the model registered), if we want to use Ensemble Voting
+# It is recommended to use the most stable model version, in these case, we use the latest one
 model = mlflow.sklearn.load_model("models:/voting_regressor/latest")
 
 # Directory of predict.py
@@ -42,7 +43,9 @@ scaler_path = os.path.join(project_root, "src", "eda", "scaler.pkl")
 
 # Load the scaler object
 try:
-    # The scaler.pkl is in the directory "scaler" of the MLFlow experiment
+    # The scaler.pkl is in the directory "scaler" of the MLFlow experiment, it can be loaded ussing the directory where
+    # the scaler.pkl is stored
+    # scaler_path = os.path.join(project_root, "src", "eda", "scaler.pkl")
     logged_run_uri = f"runs:/{scaler_run_id}/scaler/scaler.pkl"
     scaler = joblib.load(mlflow.artifacts.download_artifacts(logged_run_uri))
 except Exception as e:
@@ -96,13 +99,11 @@ def predict(features: PropertyFeatures):
     :raises 400 if the district or location name is not valid.
     :raises 500 if any error occurs during data preparation, transformation, or prediction.
     """
-    print("1: Entering into the endpoint predict")
 
     district_name = 'DISTRICTS_'+unidecode(features.district).upper()
     location_name = unidecode(features.location).upper()
 
     try:
-        print("2: Preparing the data")
         data_dict = {
             'CONSTRUCTEDAREA': features.constructed_area,
             'HASTERRACE': features.has_terrace,
@@ -119,6 +120,7 @@ def predict(features: PropertyFeatures):
         }
 
         group_name = None
+
         # Find which group the location belongs to
         for key, value in location_name_map.items():
             if location_name == key:
@@ -145,18 +147,14 @@ def predict(features: PropertyFeatures):
         if district_name not in DISTRICT_COLUMNS:
             raise HTTPException(status_code=400, detail=f"Invalid district name: {district_name}")
 
-        print(f"Data dictionary prepared: {data_dict}")
         df = pd.DataFrame([data_dict])
-        print("3: Data transformed into a DataFrame")
 
         continuous_features = ['CONSTRUCTEDAREA', 'CADMAXBUILDINGFLOOR',
                                'DISTANCE_TO_CITY_CENTER', 'DISTANCE_TO_METRO', 'DISTANCE_TO_CASTELLANA', 'ROOMNUMBER',
                                'BATHNUMBER', 'FLOORCLEAN']
         df[continuous_features] = scaler.transform(df[continuous_features])
-        print("4: Data scaled")
 
         prediction = model.predict(df)
-        print("5: Prediction finished")
 
         return {"Predicted label": prediction[0]}
 
