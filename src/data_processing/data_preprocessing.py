@@ -1,10 +1,29 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-def load_and_preproces_data(URL, test_size_fraction):# Load the data
+def load_and_preproces_data(URL, test_size_fraction):
+    """
+    Load and preprocess the dataset from the given CSV URL, selecting relevant features for training a regression model to predict property prices.
+
+    - Reads the dataset from the specified CSV file.
+    - Selects a predefined subset of features (Group 1) considered important for the model.
+    - Separates the target variables ('PRICE' and 'UNITPRICE') from the predictors.
+    - Handles class stratification by splitting the data into frequent and rare target price classes to ensure a balanced train-test split.
+    - Returns the training and testing sets for both features and target.
+
+    :param URL: Path or URL to the CSV dataset file.
+    :type URL: str
+    :param test_size_fraction: Fraction of the dataset to include in the test split.
+    :type test_size_fraction: float
+    :return: Four pandas DataFrames: X_train, X_test, y_train, y_test
+    :rtype: tuple
+    """
+
+    # Load the data
     df = pd.read_csv(URL)
 
     # Select important feautres
+    # Group 2
     '''df_new = df[['PRICE', 'UNITPRICE', 'CONSTRUCTEDAREA',
                  'HASTERRACE', 'HASLIFT', 'ISPARKINGSPACEINCLUDEDINPRICE',
                  'ROOMNUMBER', 'BATHNUMBER', 'HASSWIMMINGPOOL', 'HASGARDEN',
@@ -12,6 +31,7 @@ def load_and_preproces_data(URL, test_size_fraction):# Load the data
                  'DISTANCE_TO_CASTELLANA', 'CADMAXBUILDINGFLOOR', 'FLOORCLEAN',
                  'PERIOD_201803', 'PERIOD_201806', 'PERIOD_201809', 'PERIOD_201812']]'''
 
+    # Group 1
     df_new = df[['PRICE', 'UNITPRICE', 'CONSTRUCTEDAREA',
                  'HASTERRACE', 'ISPARKINGSPACEINCLUDEDINPRICE',
                  'ROOMNUMBER', 'BATHNUMBER', 'HASSWIMMINGPOOL',
@@ -29,7 +49,8 @@ def load_and_preproces_data(URL, test_size_fraction):# Load the data
                  'DISTRICTS_VILLA DE VALLECAS', 'DISTRICTS_VILLAVERDE']]
 
     # Try with all the features do not give a good result
-    '''df_new = df[column_names = [
+    # Group 3
+    '''df_new = df[[
     "PRICE", "UNITPRICE", "CONSTRUCTEDAREA", "ROOMNUMBER", "BATHNUMBER",
     "HASTERRACE", "HASLIFT", "HASAIRCONDITIONING", "ISPARKINGSPACEINCLUDEDINPRICE",
     "PARKINGSPACEPRICE", "HASNORTHORIENTATION", "HASSOUTHORIENTATION",
