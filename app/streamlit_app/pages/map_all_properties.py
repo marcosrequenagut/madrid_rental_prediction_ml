@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import requests
 
 # URL of the API
@@ -16,12 +17,11 @@ try:
 
     # Check if the request was successful
     if response.status_code == 200:
-        # Display the map of the properties
-        st.image(response.content, use_container_width=True)
+        # ✅ Display the interactive folium map as HTML
+        components.html(response.content.decode("utf-8"), height=600, scrolling=True)
     else:
-        st.error("Error in the properticuaes request")
+        st.error("Error in the properties request")
         st.error(f"Error: {response.status_code} - {response.text}")
 
 except requests.exceptions.RequestException as e:
     st.error(f"An error occurred when connecting with the API: {e}")
-
