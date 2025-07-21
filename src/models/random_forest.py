@@ -1,9 +1,6 @@
 import mlflow
 import mlflow.sklearn
 import time
-import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
 
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import GridSearchCV
@@ -16,7 +13,10 @@ def train_and_log_random_forest_regressor(X_train, X_test, y_train, y_test):
     # Initial configuration
     mlflow.set_tracking_uri("http://127.0.0.1:5000")
 
-    model_name = "random_forest_regressor"
+    # Set the name of the experiment
+    mlflow.set_experiment("TFM_column_group2")
+
+    model_name = "random_forest_regressor_80pct"
 
     run_name = f"{model_name}_{int(time.time())}"
 

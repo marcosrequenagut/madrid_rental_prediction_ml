@@ -6,12 +6,18 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import mean_absolute_error, r2_score, mean_squared_error
 
-from utils.utils import get_regression_scorers, extract_cv_metrics, calculate_metrics
+from utils.utils import get_regression_scorers, extract_cv_metrics, calculate_metrics, \
+    show_linear_model_feature_importance, show_tree_model_feature_importance, save_model
 
 
 def train_and_log_knn(X_train, X_test, y_train, y_test):
     # Initial configuration
-    model_name = "knn_regressor"
+    mlflow.set_tracking_uri("http://127.0.0.1:5000")
+
+    # Set the name of the experiment
+    mlflow.set_experiment("TFM_column_group2")
+
+    model_name = "knn_regressor_80pct"
 
     run_name = f"{model_name}_{int(time.time())}"
 
@@ -73,9 +79,10 @@ def train_and_log_knn(X_train, X_test, y_train, y_test):
             mlflow.log_metric(f"{metric}_test", value)
         for metric, value in metrics_train.items():
             mlflow.log_metric(metric, value)
+        mlflow.log_metric("r2_train", r2_train)
 
         # Save the model
-        mlflow.sklearn.log_model(knn_cv.best_estimator_, "random_forest_regressor")
+        save_model(knn_cv.best_estimator_, "knn_regressor")
 
         print("Show the r^2 for KNN Regressor:")
         print(f"R2 on test: {metrics_test['r2']:.2f}")
